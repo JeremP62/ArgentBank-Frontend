@@ -1,11 +1,16 @@
 import iconChat from '../assets/icons/icon-chat.png'
 import iconMoney from '../assets/icons/icon-money.png'
 import iconSecurity from '../assets/icons/icon-security.png'
+import bankTree from '../assets/img/bank-tree.jpeg';
 
 function Home() {
   return (
     <main>
-      <div className="hero">
+
+        <div 
+        className="hero" 
+        style={{ backgroundImage: `url(${bankTree})` }}
+      >
         <section className="hero-content">
           <h2 className="sr-only">Promoted Content</h2>
           <p className="subtitle">No fees.</p>
@@ -14,6 +19,7 @@ function Home() {
           <p className="text">Open a savings account with Argent Bank today!</p>
         </section>
       </div>
+
       <section className="features">
         <h2 className="sr-only">Features</h2>
         <div className="feature-item">
@@ -24,6 +30,7 @@ function Home() {
             24/7 chat or through a phone call in less than 5 minutes.
           </p>
         </div>
+
         <div className="feature-item">
           <img src={iconMoney} alt="Money Icon" className="feature-icon" />
           <h3 className="feature-item-title">More savings means higher rates</h3>
@@ -31,6 +38,7 @@ function Home() {
             The more you save with us, the higher your interest rate will be!
           </p>
         </div>
+
         <div className="feature-item">
           <img src={iconSecurity} alt="Security Icon" className="feature-icon" />
           <h3 className="feature-item-title">Security you can trust</h3>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setCredentials, updateUsername } from '../features/authSlice';
+import '../sass/components/User.scss';
 
 function User() {
   const dispatch = useDispatch();
@@ -10,9 +11,6 @@ function User() {
   const { token, user } = useSelector((state) => state.auth);
   const [isEditing, setIsEditing] = useState(false);
   const [newUserName, setNewUserName] = useState('');
-
-  console.log("REACT VOIT DANS REDUX :", user?.userName);
-  console.log("État complet user:", user);
 
   // Charger le profil au montage du composant
   useEffect(() => {
@@ -43,21 +41,34 @@ function User() {
     getUserProfile();
   }, [token, dispatch, navigate]);
 
-  // Synchronise le champ de texte avec Redux quand on commence à éditer
+  // Synchronise le champ de texte quand on commence à éditer
   useEffect(() => {
     if (isEditing && user) {
       setNewUserName(user.userName || '');
     }
   }, [isEditing, user]);
 
-  // Save le nouveau pseudo (LOCAL SEULEMENT - sans backend)
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    console.log("🔵 Changement local du userName:", newUserName);
-    
-    // Mise à jour locale dans Redux + localStorage
-    dispatch(updateUsername(newUserName));
-    setIsEditing(false);
+    try {
+      const response = await fetch('http://localhost:3001/api/v1/user/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ 
+          userName: newUserName
+        }) 
+      });
+
+      if (response.ok) {
+        dispatch(updateUsername(newUserName)); 
+        setIsEditing(false);
+      }
+    } catch (error) {
+      console.error("Erreur:", error);
+    }
   };
 
   const accountsData = [
@@ -82,14 +93,7 @@ function User() {
                 required
               />
             </div>
-            <div className="edit-input">
-              <label>First name:</label>
-              <input type="text" value={user?.firstName || ''} disabled className="input-disabled" />
-            </div>
-            <div className="edit-input">
-              <label>Last name:</label>
-              <input type="text" value={user?.lastName || ''} disabled className="input-disabled" />
-            </div>
+           
             <div className="edit-buttons">
               <button type="submit" className="edit-button-form">Save</button>
               <button type="button" className="edit-button-form" onClick={() => setIsEditing(false)}>Cancel</button>
@@ -117,7 +121,13 @@ function User() {
             <p className="account-amount-description">{account.description}</p>
           </div>
           <div className="account-content-wrapper cta">
-            <button className="transaction-button">View transactions</button>
+            
+            <button 
+              className="transaction-button"
+              onClick={() => navigate(`/account/${index}`)}
+            >
+              View transactions
+            </button>
           </div>
         </section>
       ))}

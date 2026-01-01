@@ -1,0 +1,119 @@
+.main.bg-dark-transactions {
+  background-color: #12002b; 
+  min-height: calc(100vh - 70px - 80px); 
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.account-details-header {
+  background-color: #fff;
+  width: 80%;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-sizing: border-box;
+  text-align: center;
+  color: #2c3e50; 
+
+  .account-amount {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+}
+
+
+.transactions-section {
+  width: 80%;
+  background-color: #fff;
+  color: #2c3e50;
+
+  .transactions-header {
+    display: grid;
+    grid-template-columns: 50px 1fr 2fr 1fr 1fr;
+    padding: 15px;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+  }
+}
+
+
+.transaction-item-container {
+  border-bottom: 1px solid #eee;
+
+  .transaction-main-info {
+    display: grid;
+    grid-template-columns: 50px 1fr 2fr 1fr 1fr;
+    padding: 15px;
+    align-items: center;
+    cursor: pointer;
+    text-align: left;
+
+    &:hover {
+      background-color: #f6f6f6;
+    }
+  }
+
+  .transaction-details-content {
+    padding: 20px 20px 20px 65px;
+    text-align: left;
+    background-color: #fff;
+    
+    p {
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .edit-icon {
+      cursor: pointer;
+      font-size: 0.8rem;
+      &:hover { color: #00bc77; }
+    }
+  }
+}
+
+.editable-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 5px 0;
+
+  select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-family: inherit;
+  }
+
+  .save-button {
+    background-color: #00bc77;
+    color: white;
+    border: none;
+    padding: 2px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 0.8rem;
+
+    &:hover {
+      background-color: #009e65;
+    }
+  }
+}
+
+.fa-chevron-down, .fa-chevron-up {
+    transition: transform 0.3s ease;
+}
+
+.fa-pencil-alt, .fa-pencil, .fa-pen {
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #00bc77;
+  }
+}

@@ -8,29 +8,36 @@ const authSlice = createSlice({
     isAuthenticated: !!localStorage.getItem('token'),
   },
   reducers: {
+
     loginSuccess: (state, action) => {
       state.token = action.payload;
       state.isAuthenticated = true;
       localStorage.setItem('token', action.payload);
     },
+    
     setCredentials: (state, action) => {
-      state.user = action.payload;
+      const user = action.payload;
+      const savedPseudo = localStorage.getItem(`pseudo_${user.id}`);
       
-      // Récupérer le userName personnalisé s'il existe
-      const customUserName = localStorage.getItem('customUserName');
-      if (customUserName) {
-        state.user.userName = customUserName;
+      if (savedPseudo) {
+        state.user = { ...user, userName: savedPseudo };
+      } else {
+        state.user = user;
       }
     },
+
     updateUsername: (state, action) => {
-      console.log("🔴 REDUCER updateUsername appelé avec:", action.payload);
       if (state.user) {
-        state.user.userName = action.payload;
-        // Sauvegarder dans localStorage
-        localStorage.setItem('customUserName', action.payload);
-        console.log("🔴 Nouveau state.user.userName:", state.user.userName);
+        const newPseudo = action.payload;
+        state.user.userName = newPseudo;
+        
+        
+        localStorage.setItem(`pseudo_${state.user.id}`, newPseudo);
+        
+        
       }
     },
+
     logout: (state) => {
       state.token = null;
       state.user = null;

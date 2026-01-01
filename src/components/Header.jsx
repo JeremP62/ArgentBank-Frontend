@@ -8,7 +8,9 @@ function Header() {
   const navigate = useNavigate();
   
   // On récupère le token et les infos user depuis le store
-  const { token, user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
+
+  const token = useSelector((state) => state.auth.token) || localStorage.getItem("token");
 
   const handleLogout = (e) => {
     e.preventDefault();

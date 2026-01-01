@@ -1,0 +1,145 @@
+swagger: "2.0"
+info:
+  title: Bank Argent API documentation - Phase 2
+  description: Documentation des endpoints API incluant la gestion des transactions.
+  version: "1.0.0"
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+
+paths:
+  # --- ROUTES PHASE 1 (Authentification) ---
+  /user/login:
+    post:
+      tags:
+        - User Module
+      summary: Login
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/Login"
+      responses:
+        "200":
+          description: Login Successfully
+          schema:
+            $ref: "#/definitions/LoginResponse"
+
+  /user/profile:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Get User Profile
+      responses:
+        "200":
+          description: Profile retrieved successfully
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Update User Profile
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/UserProfile"
+      responses:
+        "200":
+          description: Profile updated successfully
+
+  # --- ROUTES PHASE 2 (Transactions) ---
+  /accounts/{accountId}/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Récupérer toutes les transactions d'un compte
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Liste des transactions récupérée avec succès
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Transaction"
+
+  /transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Voir les détails d'une transaction spécifique
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Détails de la transaction
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Modifier la catégorie ou la note d'une transaction
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionUpdate"
+      responses:
+        "200":
+          description: Transaction mise à jour avec succès
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+
+definitions:
+  Login:
+    properties:
+      email: { type: string }
+      password: { type: string }
+  LoginResponse:
+    properties:
+      token: { type: string }
+  UserProfile:
+    properties:
+      firstName: { type: string }
+      lastName: { type: string }
+
+  # Définitions pour les Transactions
+  Transaction:
+    properties:
+      id: { type: string }
+      date: { type: string }
+      description: { type: string }
+      amount: { type: number }
+      balance: { type: number }
+      category: { type: string }
+      notes: { type: string }
+
+  TransactionUpdate:
+    properties:
+      category: { type: string }
+      notes: { type: string }

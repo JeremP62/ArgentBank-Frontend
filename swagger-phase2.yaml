@@ -61,6 +61,7 @@ paths:
       tags:
         - Transaction Module
       summary: Récupérer toutes les transactions d'un compte
+      description: Permet de visualiser les transactions groupées par compte pour le mois en cours.
       parameters:
         - in: path
           name: accountId
@@ -88,13 +89,14 @@ paths:
           type: string
       responses:
         "200":
-          description: Détails de la transaction
+          description: Détails de la transaction retournés
+
     patch:
       security:
         - Bearer: []
       tags:
         - Transaction Module
-      summary: Modifier la catégorie ou la note d'une transaction
+      summary: Ajouter ou Modifier la catégorie ou la note d'une transaction
       parameters:
         - in: path
           name: transactionId
@@ -107,7 +109,23 @@ paths:
             $ref: "#/definitions/TransactionUpdate"
       responses:
         "200":
-          description: Transaction mise à jour avec succès
+          description: Informations mises à jour avec succès
+
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Supprimer la catégorie ou la note d'une transaction
+      description: Supprime les métadonnées sans supprimer la transaction elle-même.
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Informations supprimées avec succès
 
 securityDefinitions:
   Bearer:
@@ -128,7 +146,6 @@ definitions:
       firstName: { type: string }
       lastName: { type: string }
 
-  # Définitions pour les Transactions
   Transaction:
     properties:
       id: { type: string }

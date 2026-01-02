@@ -16,15 +16,17 @@ const authSlice = createSlice({
     },
     
     setCredentials: (state, action) => {
-      const user = action.payload;
-      const savedPseudo = localStorage.getItem(`pseudo_${user.id}`);
-      
-      if (savedPseudo) {
-        state.user = { ...user, userName: savedPseudo };
-      } else {
-        state.user = user;
-      }
-    },
+  const userFromApi = action.payload;
+  
+  const userId = userFromApi.id || userFromApi._id;
+  const savedPseudo = localStorage.getItem(`pseudo_${userId}`);
+  
+  // On fusionne pour ne rien perdre
+  state.user = { 
+    ...userFromApi, 
+    userName: savedPseudo || userFromApi.userName || userFromApi.firstName 
+  };
+},
 
     updateUsername: (state, action) => {
       if (state.user) {

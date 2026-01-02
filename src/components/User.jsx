@@ -31,6 +31,7 @@ function User() {
 
         if (response.ok) {
           const data = await response.json();
+          console.log("CONTENU RÉEL DE L'API :", data.body);
           dispatch(setCredentials(data.body));
         }
       } catch (error) {
@@ -93,6 +94,28 @@ function User() {
                 required
               />
             </div>
+
+            <div className="edit-input">
+  <label htmlFor="firstname">First name:</label>
+  <input 
+    type="text" 
+    id="firstname" 
+    value={user?.firstName || "Tony"} 
+    disabled 
+    style={{ backgroundColor: '#e0e0e0', cursor: 'not-allowed' }}
+  />
+</div>
+
+<div className="edit-input">
+  <label htmlFor="lastname">Last name:</label>
+  <input 
+    type="text" 
+    id="lastname" 
+    value={user?.lastName || "Stark"} 
+    disabled 
+    style={{ backgroundColor: '#e0e0e0', cursor: 'not-allowed' }}
+  />
+</div>
            
             <div className="edit-buttons">
               <button type="submit" className="edit-button-form">Save</button>
